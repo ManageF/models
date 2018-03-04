@@ -44,3 +44,18 @@ build: go-check
 	@echo Building...
 	@echo Generate Protos...
 	protoc -I rpc/ rpc/*.proto --go_out=plugins=grpc:rpc
+
+#
+# dep targets - dependency management
+#
+
+dep-install:
+	@echo Installing Glide itself
+	@mkdir -p ${GOPATH}/bin
+	# We want to pin on a specific version
+	# @curl https://glide.sh/get | sh
+	@curl https://glide.sh/get | awk '{gsub("get TAG https://glide.sh/version", "TAG=v0.13.1", $$0); print}' | sh
+
+dep-update:
+	@echo Updating dependencies and storing in vendor directory
+	@glide update --strip-vendor
