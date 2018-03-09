@@ -45,6 +45,9 @@ build: go-check
 	@echo Generate Protos...
 	protoc -I rpc/ rpc/*.proto --go_out=plugins=grpc:rpc
 
+test:
+	@echo Running tests, excluding third party tests under vendor
+	go test $(shell go list ./... | grep -v -e /vendor/)
 #
 # dep targets - dependency management
 #
